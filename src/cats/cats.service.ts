@@ -8,13 +8,14 @@ export class CatsService {
   private cats: Cat[] = [];
 
   create(cat: CreateCatDto) {
+    const id = this.cats.length + 1;
     this.cats.push({
-      id: this.cats.length + 1,
+      id,
       name: cat.name,
       age: cat.age,
       sex: cat.sex,
     });
-    return `新增一只名为${cat.name}的猫咪，年龄${cat.age}，性别${cat.sex || '未知'}`;
+    return `新增一只 ID: ${id}, 名为${cat.name}的猫咪，年龄${cat.age}，性别${cat.sex || '未知'}`;
   }
 
   findAll(page?: number, pageSize?: number): Cat[] {
@@ -33,7 +34,10 @@ export class CatsService {
     if (index === -1) {
       return `ID为 ${id} 的猫咪不存在`;
     }
-    this.cats[index] = cat;
+    this.cats[index] = {
+      ...this.cats[index],
+      ...cat,
+    };
     return `更新ID为 ${id} 的猫咪信息为：${JSON.stringify(cat)}`;
   }
 
