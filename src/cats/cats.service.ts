@@ -29,8 +29,8 @@ export class CatsService {
     return `获取ID为 ${id} 的猫咪信息`;
   }
 
-  update(id: number, cat: UpdateCatDto) { 
-    const index = this.cats.findIndex(item => item.id === id);
+  update(id: number, cat: UpdateCatDto) {
+    const index = this.cats.findIndex((item) => item.id === id);
     if (index === -1) {
       return `ID为 ${id} 的猫咪不存在`;
     }
@@ -42,7 +42,7 @@ export class CatsService {
   }
 
   remove(id: number) {
-    const index = this.cats.findIndex(item => item.id === id);
+    const index = this.cats.findIndex((item) => item.id === id);
     if (index === -1) {
       return `ID为 ${id} 的猫咪不存在`;
     }
