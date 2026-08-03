@@ -44,4 +44,9 @@ export class CatsController {
   async remove(@Param('id') id: string) {
     return this.catsService.remove(Number(id));
   }
+
+  @Get('/test')
+  async test() {
+    throw new ForbiddenException();
+  }
 }
