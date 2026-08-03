@@ -5,6 +5,7 @@ import {
   ForbiddenException,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -35,18 +36,21 @@ export class CatsController {
   }
 
   @Get('/detail/:id')
-  async findOne(@Param('id') id: string) {
-    return this.catsService.findOne(Number(id));
+  async findOne(@Param('id', new ParseIntPipe()) id: number) {
+    return this.catsService.findOne(id);
   }
 
   @Put('/update/:id')
-  async update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
-    return this.catsService.update(Number(id), updateCatDto);
+  async update(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() updateCatDto: UpdateCatDto,
+  ) {
+    return this.catsService.update(id, updateCatDto);
   }
 
   @Delete('/delete/:id')
-  async remove(@Param('id') id: string) {
-    return this.catsService.remove(Number(id));
+  async remove(@Param('id', new ParseIntPipe()) id: number) {
+    return this.catsService.remove(id);
   }
 
   @Get('/test')
