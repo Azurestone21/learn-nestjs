@@ -4,6 +4,7 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { setupSwagger } from './config/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +14,9 @@ async function bootstrap() {
     new LoggingInterceptor(),
     new ResponseInterceptor(),
   ); // 全局拦截器
+
+  setupSwagger(app); // 生成 Swagger 文档
+
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
