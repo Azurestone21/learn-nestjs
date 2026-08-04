@@ -9,16 +9,18 @@ import {
   Post,
   Put,
   Query,
-  // UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cat.interface';
-// import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 
 @Controller('cats')
-// @UseFilters(HttpExceptionFilter)
+@UseGuards(RolesGuard)
+// @Roles(['admin']) // 调试角色守卫
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
