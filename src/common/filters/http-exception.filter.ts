@@ -5,6 +5,10 @@ import {
   HttpException,
 } from '@nestjs/common';
 import type { Response } from 'express';
+import {
+  getHttpStatusMessageZh,
+  isDefaultHttpStatusMessage,
+} from '../constants/http-status-message';
 import { ResponseDto } from '../dto/response.dto';
 
 @Catch(HttpException) // 捕获 HttpException 异常
@@ -12,19 +16,26 @@ export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    // const request = ctx.getRequest<Request>();
     const statusCode = exception.getStatus();
 
     const message = this.extractErrorMessage(exception);
 
     const standardResponse: ResponseDto<null> = {
       code: statusCode,
-      message,
+      message: this.toChineseMessage(statusCode, message),
       data: null, // 异常时 data 通常为 null
       timestamp: new Date().toISOString(),
     };
 
     response.status(statusCode).json(standardResponse);
+  }
+
+  private toChineseMessage(statusCode: number, message: string): string {
+    if (isDefaultHttpStatusMessage(statusCode, message)) {
+      return getHttpStatusMessageZh(statusCode);
+    }
+
+    return message || getHttpStatusMessageZh(statusCode);
   }
 
   /**
