@@ -52,7 +52,7 @@ $ pnpm run test:cov
   - [x] 响应拦截器，统一响应体
 
 - [ ] 环境配置
-- [ ] Swagger API 文档
+- [x] Swagger API 文档
 - [ ] TypeORM 数据库
 - [ ] 认证与授权
 - [ ] CORS 跨域
