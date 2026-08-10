@@ -6,6 +6,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { getDatabaseConfig } from './config/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UploadModule } from './common/modules/upload/upload.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       useFactory: getDatabaseConfig,
     }),
     ...modules,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],
