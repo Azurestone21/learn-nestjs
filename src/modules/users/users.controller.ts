@@ -11,6 +11,9 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { SkipAuth } from 'src/common/decorators/skipAuth.decorator';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from 'src/common/enums/role.enum';
 
 @Controller('user')
 @ApiTags('用户模块')
@@ -18,6 +21,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/create')
+  @Roles([Role.Admin])
   @ApiOperation({
     summary: '创建用户',
   })
@@ -26,6 +30,7 @@ export class UsersController {
   }
 
   @Get('/get-all')
+  @SkipAuth(true) // 跳过认证
   @ApiOperation({
     summary: '获取所有用户',
   })
@@ -37,8 +42,17 @@ export class UsersController {
   @ApiOperation({
     summary: '根据ID获取用户详情',
   })
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  findOneById(@Param('id') id: string) {
+    return this.usersService.findOneById({ id: +id });
+  }
+
+  @Post('/detail')
+  @SkipAuth(true) // 跳过认证
+  @ApiOperation({
+    summary: '根据用户名获取用户详情',
+  })
+  async findOne(@Body() { username }: { username: string }) {
+    return await this.usersService.findOne({ username });
   }
 
   @Patch('/update/:id')
