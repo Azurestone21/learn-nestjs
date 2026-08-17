@@ -75,7 +75,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
           );
           if (stringErrors.length > 0) {
             // 如果有多个错误，用逗号连接
-            return stringErrors.join(', ');
+            // return stringErrors.join(', ');
+            return stringErrors[0];
           }
 
           // 如果数组元素是对象（复杂的验证错误）
