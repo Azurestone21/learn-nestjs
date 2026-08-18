@@ -8,6 +8,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UploadModule } from './common/modules/upload/upload.module';
 import { GUARDS } from './common/guards/index';
+import { TaskModule } from './common/modules/task/task.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -20,8 +22,10 @@ import { GUARDS } from './common/guards/index';
       inject: [ConfigService],
       useFactory: getDatabaseConfig,
     }),
+    ScheduleModule.forRoot(),
     ...modules,
     UploadModule,
+    TaskModule,
   ],
   controllers: [AppController],
   providers: [
